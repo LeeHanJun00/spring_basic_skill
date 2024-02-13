@@ -1,10 +1,12 @@
 package hello.springmvc.basic.request;
 
+import hello.springmvc.basic.HelloData;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -84,6 +86,37 @@ public class RequestParamController {
   @RequestMapping("/request-param-map")
   public String requestParamMap(@RequestParam Map<String, Object> paramMap)  {
     log.info("username={}, age={}",paramMap.get("username"), paramMap.get("age"));
+
+    return "ok";
+  }
+
+//  @ResponseBody
+//  @RequestMapping("/model-attribute-v1")
+//  public String modelAttributeV1(@RequestParam String username, @RequestParam int age) {
+//    HelloData helloData = new HelloData();
+//    helloData.setUsername(username);
+//    helloData.setAge(age);
+//
+//    log.info("username={}, age={}",helloData.getUsername(), helloData.getAge());
+//    log.info("helloData={}", helloData);
+//
+//    return "ok";
+//  }
+
+  // 위에 코드를 아래처럼 요약 가능 @ModelAttribute
+  @ResponseBody
+  @RequestMapping("/model-attribute-v1")
+  public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+    log.info("username={}, age={}",helloData.getUsername(), helloData.getAge());
+
+    return "ok";
+  }
+  
+  // @ModelAttribute 생략가능
+  @ResponseBody
+  @RequestMapping("/model-attribute-v2")
+  public String modelAttributeV2( HelloData helloData) {
+    log.info("username={}, age={}",helloData.getUsername(), helloData.getAge());
 
     return "ok";
   }
